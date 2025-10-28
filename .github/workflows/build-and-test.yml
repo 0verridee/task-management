@@ -28,10 +28,10 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build and test Task Service
-        run: mvn -B package --file task-service/pom.xml
+      run: mvn -B package --file task-service/pom.xml
 
     - name: Build and test User Service
-        run: mvn -B package --file user-service/pom.xml
+      run: mvn -B package --file user-service/pom.xml
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
