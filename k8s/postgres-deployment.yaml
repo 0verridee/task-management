@@ -23,3 +23,12 @@ spec:
               value: "postgres"
             - name: POSTGRES_PASSWORD
               value: "postgres"
+          volumeMounts:
+            - name: postgres-init-scripts
+              mountPath: /docker-entrypoint-initdb.d/ # Куда мы ее подключаем
+
+      # --- И ВОТ ВТОРАЯ ЧАСТЬ ИЗМЕНЕНИЯ ---
+      volumes:
+        - name: postgres-init-scripts # Создаем "виртуальную флешку"
+          configMap:
+            name: postgres-init-config # И говорим, что ее содержимое - это наш ConfigMap

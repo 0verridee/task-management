@@ -57,7 +57,7 @@ jobs:
       - name: Deploy to Minikube
         run: |
           kubectl apply -f k8s/
-          kubectl rollout restart deployment/task-api-deployment
-          kubectl rollout restart deployment/user-api-deployment
+          kubectl rollout restart deployment/nurassul-task-api-deployment
+          kubectl rollout restart deployment/nurassul-user-api-deployment
 
 

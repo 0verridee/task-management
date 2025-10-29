@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init-config # Имя нашего "органайзера"
+data:
+  init.sql: |  # Имя "файла" внутри ConfigMap
+    -- ВСТАВЬ СЮДА ПОЛНОЕ СОДЕРЖИМОЕ ТВОЕГО init.sql
+    -- Например:
+    SELECT 'CREATE DATABASE "task-db"'
+    WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'task-db')\gexec
+
+    SELECT 'CREATE DATABASE "user-db"'
+    WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'user-db')\gexec
