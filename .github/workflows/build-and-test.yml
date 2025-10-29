@@ -1,9 +1,7 @@
 name: Build, Test and Push Docker Images
-
 on:
   push:
     branches: [ main ]
-
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
