@@ -2,12 +2,10 @@ name: Build, Test and Push Docker Images
 
 on:
   push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
 
 jobs:
-  build-and-push:
+  build-and-test:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
@@ -24,22 +22,28 @@ jobs:
     - name: Build and test User Service
       run: mvn -B package --file user-service/pom.xml -DskipTests
 
-    - name: Log in to DockerHub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
+  push-to-dockerhub:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - uses: actions/checkout@v4
 
-    - name: Build and push Task Service Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: ./task-service
-        push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/task-api:latest
+      - name: Log in to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-    - name: Build and push User Service Docker image
-      uses: docker/build-push-action@v5
-      with:
-        context: ./user-service
-        push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/user-api:latest
+      - name: Build and push Task Service Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./task-service
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/task-api:latest
+
+      - name: Build and push User Service Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./user-service
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/user-api:latest
