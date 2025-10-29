@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nurassul-user-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nurassul-user-api
+      tier: client
+  template:
+    metadata:
+      labels:
+        app: nurassul-user-api
+        tier: client
+    spec:
+      containers:
+        - name: nurassul-user-api
+          image: nurassul/user-api

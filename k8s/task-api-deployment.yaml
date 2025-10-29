@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nurassul-task-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nurassul-task-api
+      tier: client
+  template:
+    metadata:
+      labels:
+        app: nurassul-task-api
+        tier: client
+    spec:
+      containers:
+        - name: nurassul-task-api
+          image: nurassul/task-api

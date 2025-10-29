@@ -48,3 +48,16 @@ jobs:
           context: ./user-service
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/user-api:latest
+
+  deploy-to-minikube:
+    runs-on: self-hosted
+    needs: push-to-dockerhub
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Minikube
+        run: |
+          kubectl apply -f k8s/
+          kubectl rollout restart deployment/task-api-deployment
+          kubectl rollout restart deployment/user-api-deployment
+
+
